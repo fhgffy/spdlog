@@ -114,7 +114,12 @@ std::size_t rotating_file_sink<Mutex>::get_current_size() {
 template <typename Mutex>
 SPDLOG_INLINE void rotating_file_sink<Mutex>::set_buffer_size(std::size_t buffer_size) {
     std::lock_guard<Mutex> lock(base_sink<Mutex>::mutex_);
-    file_helper_.set_buffer_size(buffer_size);
+    /* 2026-10-03：重开回调可能追加内容，按实际文件大小同步轮转计数。 */
+    if (file_helper_.buffer_size() != buffer_size) {
+        file_helper_.set_buffer_size(buffer_size);
+        file_helper_.flush();
+        current_size_ = file_helper_.size();
+    }
 }
 
 template <typename Mutex>
