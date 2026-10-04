@@ -170,7 +170,6 @@ TEST_CASE("file_helper_open", "[file_helper]") {
 }
 #endif  // SPDLOG_NO_EXCEPTIONS
 
-/* 2026-10-03：缓冲重配置遵循文件事件顺序，并保留回调与待写日志的字节。 */
 TEST_CASE("file_helper_buffer_resize_events", "[file_helper]") {
     prepare_logdir();
     int opens = 0;

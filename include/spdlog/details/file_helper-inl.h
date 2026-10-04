@@ -104,7 +104,7 @@ SPDLOG_INLINE void file_helper::close() {
 }
 
 SPDLOG_INLINE void file_helper::set_buffer_size(size_t buffer_size) {
-    /* 2026-10-03：先保留待写内容，再通过重开文件于首次 I/O 前配置缓冲区。 */
+    // Reopen to configure setvbuf before I/O while preserving pending output.
     if (custom_buffer_size_ == buffer_size) {
         return;
     }

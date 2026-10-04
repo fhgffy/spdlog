@@ -307,7 +307,6 @@ TEST_CASE("custom_buffer_size_daily", "[daily_logger]") {
     REQUIRE(get_filesize(actual_filename) > 0);
 }
 
-/* 2026-10-03：调整文件缓冲时必须保留尚未刷新的日志及后续输出。 */
 TEST_CASE("custom_buffer_size_preserves_pending_output", "[file_helper]") {
     prepare_logdir();
     const size_t initial_size = GENERATE(size_t{0}, size_t{64 * 1024});
@@ -330,7 +329,6 @@ TEST_CASE("custom_buffer_size_preserves_pending_output", "[file_helper]") {
                                    spdlog::details::os::default_eol));
 }
 
-/* 2026-10-03：调整缓冲后，回调新增的文件内容仍须计入大小轮转。 */
 TEST_CASE("custom_buffer_size_rotating_tracks_reopen_callbacks", "[rotating_logger]") {
     prepare_logdir();
     spdlog::file_event_handlers handlers;
